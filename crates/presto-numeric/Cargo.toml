@@ -1,0 +1,11 @@
+[package]
+name = "presto-numeric"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+presto-core = { path = "../presto-core" }
+rand = "0.8"
+statrs = "0.18"

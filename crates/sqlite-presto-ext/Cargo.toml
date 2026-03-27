@@ -1,0 +1,18 @@
+[package]
+name = "sqlite-presto-ext"
+version.workspace = true
+edition = "2021"
+license.workspace = true
+authors.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+presto-core = { path = "../presto-core" }
+presto-numeric = { path = "../presto-numeric" }
+presto-text = { path = "../presto-text" }
+presto-binary = { path = "../presto-binary" }
+presto-net = { path = "../presto-net" }
+presto-window = { path = "../presto-window" }
+sqlite-loadable = "0.0.6-alpha.6"

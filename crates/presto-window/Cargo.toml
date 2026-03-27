@@ -1,0 +1,9 @@
+[package]
+name = "presto-window"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+presto-core = { path = "../presto-core" }

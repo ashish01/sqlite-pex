@@ -1,0 +1,19 @@
+# Rust
+/target/
+**/*.rs.bk
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local env / temp
+.env
+.env.*
+.tmp/

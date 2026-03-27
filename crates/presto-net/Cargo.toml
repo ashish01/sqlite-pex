@@ -1,0 +1,13 @@
+[package]
+name = "presto-net"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+presto-core = { path = "../presto-core" }
+ipnet = "2.11"
+percent-encoding = "2.3"
+url = "2.5"
+uuid = { version = "1.8", features = ["v4"] }

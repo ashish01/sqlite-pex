@@ -1,0 +1,70 @@
+name: Build and attach extension to release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build extension (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release extension
+        run: cargo build --release -p sqlite-presto-ext
+
+      - name: Package extension artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+
+          if [[ -f target/release/libsqlite_presto_ext.so ]]; then
+            cp target/release/libsqlite_presto_ext.so "dist/sqlite-presto-ext-${{ matrix.os }}-${{ runner.arch }}.so"
+          elif [[ -f target/release/libsqlite_presto_ext.dylib ]]; then
+            cp target/release/libsqlite_presto_ext.dylib "dist/sqlite-presto-ext-${{ matrix.os }}-${{ runner.arch }}.dylib"
+          else
+            echo "Could not find compiled extension artifact"
+            ls -la target/release || true
+            exit 1
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-${{ matrix.os }}
+          path: dist/*
+          if-no-files-found: error
+
+  release:
+    name: Upload artifacts to GitHub Release
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          pattern: extension-*
+          merge-multiple: true
+
+      - name: Publish assets to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*

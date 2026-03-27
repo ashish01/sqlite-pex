@@ -1,0 +1,20 @@
+[workspace]
+members = [
+  "crates/sqlite-presto-ext",
+  "crates/presto-core",
+  "crates/presto-numeric",
+  "crates/presto-text",
+  "crates/presto-binary",
+  "crates/presto-net",
+  "crates/presto-window",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+license = "MIT"
+version = "0.1.0"
+authors = ["sqlite-presto-ext contributors"]
+
+[workspace.lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
